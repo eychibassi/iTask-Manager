@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1A1B26;
+    font-family: "Sour Gummy", sans-serif;
+    color: #F1C40F;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.container {
+    max-width: 1000px; /* Aumentei um pouco para caber as duas colunas */
+    margin: 0 auto;
+}
+
+.main-title {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 50px;
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* O DASHBOARD: Criando as duas colunas */
+.dashboard {
+    display: flex;
+    gap: 40px; /* Espaço entre as colunas */
+    align-items: flex-start;
+}
+
+/* COLUNA ESQUERDA: Formulário */
+.input-section {
+    flex: 1; /* Ocupa uma parte proporcional */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #24283B;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid #F1C40F; /* Borda amarela para destaque */
+    position: sticky; /* Tenta manter visível ao rolar */
+    top: 20px;
+}
+
+input, textarea {
+    background: #1A1B26;
+    border: 2px solid #414868;
+    border-radius: 12px;
+    padding: 12px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease; /* Suaviza a bordinha acendendo */
+}
+
+textarea {
+    resize: none; /* AQUI: Remove o controle de redimensionar */
+    min-height: 120px; /* Garante um espaço bom para escrever */
+}
+
+input:focus, textarea:focus {
+    border-color: #F1C40F;
+    background: #1f2335; /* Dá uma leve clareada quando clica */
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.1);
+}
+
+button {
+    background-color: #F1C40F;
+    color: #1A1B26;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+    background-color: #d4ac0d;
+    transform: scale(1.02);
+}
+
+/* COLUNA DIREITA: Lista */
+.task-list {
+    flex: 2; /* Ocupa o dobro da largura do formulário */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.urgencia-container {
+    margin: 5px 0;
+}
+
+.urgencia-container p {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #F1C40F;
+}
+
+.radio-group {
+    display: flex;
+    justify-content:间-between;
+    gap: 10px;
+}
+
+.radio-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #1A1B26;
+    padding: 8px;
+    border-radius: 10px;
+    border: 2px solid #414868;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    color: #fff;
+}
+
+/* Esconde o círculo padrão do rádio */
+.radio-item input {
+    display: none;
+}
+
+/* Cores dos pontinhos */
+.ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.baixa { background-color: #2ecc71; box-shadow: 0 0 8px #2ecc71; }
+.media { background-color: #f39c12; box-shadow: 0 0 8px #f39c12; }
+.alta { background-color: #e74c3c; box-shadow: 0 0 8px #e74c3c; }
+
+/* Estilo quando selecionado */
+.radio-item:has(input:checked) {
+    border-color: #F1C40F;
+    background: #2d324a;
+    transform: translateY(-2px);
+}

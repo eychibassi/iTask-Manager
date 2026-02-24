@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTask Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <h1 class="main-title">iTask Manager</h1>
+
+        <div class="dashboard">
+            <aside class="input-section">
+                <input type="text" id="input-titulo" placeholder="Título">
+                <textarea id="input-descricao" placeholder="Descrição..." rows="4"></textarea>
+
+<div class="urgencia-container">
+    <p>PRIORIDADE:</p>
+    <div class="radio-group">
+        <label class="radio-item">
+            <input type="radio" name="urgencia" value="baixa" checked>
+            <span class="ponto baixa"></span> Baixa
+        </label>
+        <label class="radio-item">
+            <input type="radio" name="urgencia" value="media">
+            <span class="ponto media"></span> Média
+        </label>
+        <label class="radio-item">
+            <input type="radio" name="urgencia" value="alta">
+            <span class="ponto alta"></span> Alta
+        </label>
+    </div>
+</div>
+
+                <button id="btn-adicionar">Adicionar Tarefa</button>
+            </aside>
+
+            <section id="lista-tarefas" class="task-list">
+                <p style="color: #6272a4; text-align: center;">Suas tarefas aparecerão aqui...</p>
+            </section>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
