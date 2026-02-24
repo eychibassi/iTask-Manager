@@ -52,3 +52,64 @@ class Tarefa {
     }
 
     }
+
+    // Selecionando os inputs
+const inputTitulo = document.getElementById('input-titulo') as HTMLInputElement;
+const inputDescricao = document.getElementById('input-descricao') as HTMLTextAreaElement;
+const btnAdicionar = document.getElementById('btn-adicionar') as HTMLButtonElement;
+
+btnAdicionar.addEventListener('click', () => {
+    const titulo = inputTitulo.value;
+    const descricao = inputDescricao.value;
+    const urgencia = (document.querySelector('input[name="urgencia"]:checked') as HTMLInputElement).value;
+
+    if (titulo === "") return; // Não adiciona se estiver vazio
+
+    // No momento de criar o card:
+const novoCard = document.createElement('div');
+novoCard.classList.add('task-card');
+
+// Mapeamento de cores vibrantes
+const cores = { 
+    baixa: '#2ecc71', // Verde neon
+    media: '#f1c40f', // Amarelo (o seu favorito)
+    alta: '#ff4757'   // Vermelho vibrante
+};
+
+const corEscolhida = cores[urgencia as keyof typeof cores];
+
+// Aplicamos a cor como uma variável CSS dentro do próprio card
+novoCard.style.setProperty('--card-color', corEscolhida);
+
+    // 3. Montar o conteúdo interno do Card
+    novoCard.innerHTML = `
+
+    <button class="btn-delete">
+        <img src="images/bin.png" alt="Excluir">
+    </button>
+    <div class="task-content">
+
+    <div class="task-info">
+        <h3>${titulo}</h3>
+        <p>${descricao}</p>
+    </div>
+    <button class="btn-check">
+            <img src="images/check.png" alt="Concluir Tarefa">
+        </button>
+    </div>
+
+`;
+
+    // 4. Adicionar na tela e limpar o formulário
+    const container = document.getElementById('container-tarefas');
+    const mensagemVazia = document.getElementById('mensagem-vazia');
+
+    if (container) {
+        if (mensagemVazia) mensagemVazia.style.display = 'none'; // Esconde o aviso
+        container.appendChild(novoCard);
+    }
+
+    // Limpar campos
+    inputTitulo.value = "";
+    inputDescricao.value = "";
+});
