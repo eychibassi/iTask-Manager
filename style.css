@@ -289,3 +289,48 @@ input:focus, textarea:focus {
     opacity: 1;         /* Ganha destaque ao passar o mouse */
     transform: scale(1.2);
 }
+
+/* Prepara o texto para receber a linha */
+.task-card .task-info h3, 
+.task-card .task-info p {
+    position: relative;
+    display: inline-block; /* Necessário para a linha saber onde começa/termina */
+    transition: color 0.3s ease;
+}
+
+/* A "Linha" que vai riscar o texto */
+.task-card .task-info h3::after,
+.task-card .task-info p::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0; /* Começa com tamanho zero */
+    height: 2px;
+    background-color: #ffffff; /* Cor da linha (pode ser a mesma do check) */
+    transition: width 1.5s ease-in-out; /* O segredo da animação está aqui */
+}
+
+/* Quando concluído, a linha cresce até 100% */
+.task-card.completed .task-info h3::after,
+.task-card.completed .task-info p::after {
+    width: 100%;
+}
+
+/* Diminui a opacidade do texto e do card */
+.task-card.completed {
+    opacity: 0.6;
+}
+
+.task-card.completed .task-info h3,
+.task-card.completed .task-info p {
+    color: #717CB4;
+}
+
+.task-card.completed .btn-check {
+    transform: scale(1.1);
+    background-color: #2ecc71;
+    border-radius: 8px; /* Mantém o fundo contido */
+    filter: drop-shadow(0 0 8px #2ecc71);
+    transition: all 0.3s ease;
+}

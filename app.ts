@@ -100,6 +100,20 @@ novoCard.style.setProperty('--card-color', corEscolhida);
 
 `;
 
+const btnCheck = novoCard.querySelector('.btn-check') as HTMLButtonElement;
+
+btnCheck.addEventListener('click', () => {
+    // Adiciona ou remove a classe que controla o visual "riscado"
+    novoCard.classList.toggle('completed');
+});
+
+// --- LOGICA DE EXCLUSÃO (BIN) ---
+const btnDelete = novoCard.querySelector('.btn-delete') as HTMLButtonElement;
+
+btnDelete.addEventListener('click', () => {
+    novoCard.remove();
+});
+
     // 4. Adicionar na tela e limpar o formulário
     const container = document.getElementById('container-tarefas');
     const mensagemVazia = document.getElementById('mensagem-vazia');

@@ -57,6 +57,16 @@ btnAdicionar.addEventListener('click', function () {
     novoCard.style.setProperty('--card-color', corEscolhida);
     // 3. Montar o conteúdo interno do Card
     novoCard.innerHTML = "\n\n    <button class=\"btn-delete\">\n        <img src=\"images/bin.png\" alt=\"Excluir\">\n    </button>\n    <div class=\"task-content\">\n\n    <div class=\"task-info\">\n        <h3>".concat(titulo, "</h3>\n        <p>").concat(descricao, "</p>\n    </div>\n    <button class=\"btn-check\">\n            <img src=\"images/check.png\" alt=\"Concluir Tarefa\">\n        </button>\n    </div>\n\n");
+    var btnCheck = novoCard.querySelector('.btn-check');
+    btnCheck.addEventListener('click', function () {
+        // Adiciona ou remove a classe que controla o visual "riscado"
+        novoCard.classList.toggle('completed');
+    });
+    // --- LOGICA DE EXCLUSÃO (BIN) ---
+    var btnDelete = novoCard.querySelector('.btn-delete');
+    btnDelete.addEventListener('click', function () {
+        novoCard.remove();
+    });
     // 4. Adicionar na tela e limpar o formulário
     var container = document.getElementById('container-tarefas');
     var mensagemVazia = document.getElementById('mensagem-vazia');
