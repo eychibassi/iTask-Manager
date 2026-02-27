@@ -205,6 +205,14 @@ input:focus, textarea:focus {
     border-color: var(--card-color); 
 }
 
+.task-info {
+    display: flex;
+    flex-direction: column; /* Força um item embaixo do outro */
+    align-items: flex-start; /* Alinha o texto à esquerda */
+    gap: 4px; /* Cria um pequeno espaço entre o título e a descrição */
+    flex: 1; /* Faz o texto ocupar o espaço restante antes do botão check */
+}
+
 .task-info h3 {
     font-family: 'Sour Gummy', sans-serif;
     font-size: 1.4rem;
@@ -333,4 +341,19 @@ input:focus, textarea:focus {
     border-radius: 8px; /* Mantém o fundo contido */
     filter: drop-shadow(0 0 8px #2ecc71);
     transition: all 0.3s ease;
+}
+
+.task-card {
+    cursor: grab; /* Mãozinha aberta */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.task-card:active {
+    cursor: grabbing; /* Mãozinha fechada ao segurar */
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+    border: 2px dashed var(--card-color); /* Usa a cor da urgência na borda */
 }

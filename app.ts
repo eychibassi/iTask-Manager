@@ -69,6 +69,19 @@ btnAdicionar.addEventListener('click', () => {
 const novoCard = document.createElement('div');
 novoCard.classList.add('task-card');
 
+novoCard.setAttribute('draggable', 'true'); 
+
+// ... (seu código de cores e innerHTML)
+
+// --- LOGICA DE DRAG START / END (Adicione logo após o innerHTML) ---
+novoCard.addEventListener('dragstart', () => {
+    novoCard.classList.add('dragging');
+});
+
+novoCard.addEventListener('dragend', () => {
+    novoCard.classList.remove('dragging');
+});
+
 // Mapeamento de cores vibrantes
 const cores = { 
     baixa: '#2ecc71', // Verde neon
@@ -127,3 +140,33 @@ btnDelete.addEventListener('click', () => {
     inputTitulo.value = "";
     inputDescricao.value = "";
 });
+
+const containerTarefas = document.getElementById('container-tarefas') as HTMLElement;
+
+containerTarefas.addEventListener('dragover', (e: DragEvent) => {
+    e.preventDefault(); // Permite o drop
+    
+    const dragging = document.querySelector('.dragging') as HTMLElement;
+    const afterElement = getDragAfterElement(containerTarefas, e.clientY);
+    
+    if (afterElement == null) {
+        containerTarefas.appendChild(dragging);
+    } else {
+        containerTarefas.insertBefore(dragging, afterElement);
+    }
+});
+
+// Função para calcular qual card está abaixo da posição do mouse
+function getDragAfterElement(container: HTMLElement, y: number) {
+    const draggableElements = [].slice.call(container.querySelectorAll('.task-card:not(.dragging)')) as HTMLElement[];
+    return draggableElements.reduce((closest: any, child: any) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}

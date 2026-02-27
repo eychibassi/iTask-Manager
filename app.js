@@ -17,7 +17,7 @@ var Tarefa = /** @class */ (function () {
         //formata a data para o padrão brasileiro
         var dataFormatada = this.dataCriacao.toLocaleString('pt-BR');
         //define o conteúdo interno do card
-        card.innerHTML = "\n            <div class=\"task-info\">\n                <input type=\"checkbox\" class=\"task-check\">\n                <div class=\"task-details\">\n                    <h3>".concat(this.titulo, "</h3>\n                    <p>").concat(this.descricao || "<em>Sem descrição</em>", "</p>\n                    <small>Criado em: ").concat(dataFormatada, "</small>\n                </div>\n            </div>\n        ");
+        card.innerHTML = "\n            <div class=\"task-info\">\n                <input type=\"checkbox\" class=\"task-check\">\n                <div class=\"task-details\">\n                    <h3>".concat(this.titulo, "</h3><br>\n                    <p>").concat(this.descricao || "<em>Sem descrição</em>", "</p>\n                    <small>Criado em: ").concat(dataFormatada, "</small>\n                </div>\n            </div>\n        ");
         //adiciona o feedback visual imediato
         var checkbox = card.querySelector('.task-check');
         checkbox.addEventListener('change', function () {
@@ -46,6 +46,15 @@ btnAdicionar.addEventListener('click', function () {
     // No momento de criar o card:
     var novoCard = document.createElement('div');
     novoCard.classList.add('task-card');
+    novoCard.setAttribute('draggable', 'true');
+    // ... (seu código de cores e innerHTML)
+    // --- LOGICA DE DRAG START / END (Adicione logo após o innerHTML) ---
+    novoCard.addEventListener('dragstart', function () {
+        novoCard.classList.add('dragging');
+    });
+    novoCard.addEventListener('dragend', function () {
+        novoCard.classList.remove('dragging');
+    });
     // Mapeamento de cores vibrantes
     var cores = {
         baixa: '#2ecc71', // Verde neon
@@ -79,3 +88,29 @@ btnAdicionar.addEventListener('click', function () {
     inputTitulo.value = "";
     inputDescricao.value = "";
 });
+var containerTarefas = document.getElementById('container-tarefas');
+containerTarefas.addEventListener('dragover', function (e) {
+    e.preventDefault(); // Permite o drop
+    var dragging = document.querySelector('.dragging');
+    var afterElement = getDragAfterElement(containerTarefas, e.clientY);
+    if (afterElement == null) {
+        containerTarefas.appendChild(dragging);
+    }
+    else {
+        containerTarefas.insertBefore(dragging, afterElement);
+    }
+});
+// Função para calcular qual card está abaixo da posição do mouse
+function getDragAfterElement(container, y) {
+    var draggableElements = [].slice.call(container.querySelectorAll('.task-card:not(.dragging)'));
+    return draggableElements.reduce(function (closest, child) {
+        var box = child.getBoundingClientRect();
+        var offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        }
+        else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
