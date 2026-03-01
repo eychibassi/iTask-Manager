@@ -64,7 +64,13 @@ btnAdicionar.addEventListener('click', () => {
     const urgencia = (document.querySelector('input[name="urgencia"]:checked') as HTMLInputElement).value;
 
     if (titulo === "") return; // Não adiciona se estiver vazio
-
+const dataCriacao = new Date().toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
     // No momento de criar o card:
 const novoCard = document.createElement('div');
 novoCard.classList.add('task-card');
@@ -105,6 +111,8 @@ novoCard.style.setProperty('--card-color', corEscolhida);
     <div class="task-info">
         <h3>${titulo}</h3>
         <p>${descricao}</p>
+        <br>
+                <small class="task-date">${dataCriacao}</small>
     </div>
     <button class="btn-check">
             <img src="images/check.png" alt="Concluir Tarefa">
@@ -118,6 +126,7 @@ const btnCheck = novoCard.querySelector('.btn-check') as HTMLButtonElement;
 btnCheck.addEventListener('click', () => {
     // Adiciona ou remove a classe que controla o visual "riscado"
     novoCard.classList.toggle('completed');
+    atualizarProgresso();
 });
 
 // --- LOGICA DE EXCLUSÃO (BIN) ---
@@ -125,6 +134,7 @@ const btnDelete = novoCard.querySelector('.btn-delete') as HTMLButtonElement;
 
 btnDelete.addEventListener('click', () => {
     novoCard.remove();
+    atualizarProgresso();
 });
 
     // 4. Adicionar na tela e limpar o formulário
@@ -134,6 +144,7 @@ btnDelete.addEventListener('click', () => {
     if (container) {
         if (mensagemVazia) mensagemVazia.style.display = 'none'; // Esconde o aviso
         container.appendChild(novoCard);
+        atualizarProgresso();
     }
 
     // Limpar campos
@@ -169,4 +180,20 @@ function getDragAfterElement(container: HTMLElement, y: number) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function atualizarProgresso() {
+    // Busca todos os cards e todos os cards que têm a classe 'completed'
+    const total = document.querySelectorAll('.task-card').length;
+    const concluidas = document.querySelectorAll('.task-card.completed').length;
+    const barra = document.getElementById('progress-bar') as HTMLDivElement;
+    
+    if (!barra) return;
+
+    // Calcula a porcentagem (se total for 0, a porcentagem é 0)
+    const porcentagem = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+    
+    // Aplica no CSS da barra
+    barra.style.width = `${porcentagem}%`;
+    barra.innerText = `${porcentagem}%`;
 }

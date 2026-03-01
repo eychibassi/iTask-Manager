@@ -17,7 +17,7 @@ var Tarefa = /** @class */ (function () {
         //formata a data para o padrão brasileiro
         var dataFormatada = this.dataCriacao.toLocaleString('pt-BR');
         //define o conteúdo interno do card
-        card.innerHTML = "\n            <div class=\"task-info\">\n                <input type=\"checkbox\" class=\"task-check\">\n                <div class=\"task-details\">\n                    <h3>".concat(this.titulo, "</h3><br>\n                    <p>").concat(this.descricao || "<em>Sem descrição</em>", "</p>\n                    <small>Criado em: ").concat(dataFormatada, "</small>\n                </div>\n            </div>\n        ");
+        card.innerHTML = "\n            <div class=\"task-info\">\n                <input type=\"checkbox\" class=\"task-check\">\n                <div class=\"task-details\">\n                    <h3>".concat(this.titulo, "</h3>\n                    <p>").concat(this.descricao || "<em>Sem descrição</em>", "</p>\n                    <small>Criado em: ").concat(dataFormatada, "</small>\n                </div>\n            </div>\n        ");
         //adiciona o feedback visual imediato
         var checkbox = card.querySelector('.task-check');
         checkbox.addEventListener('change', function () {
@@ -43,6 +43,13 @@ btnAdicionar.addEventListener('click', function () {
     var urgencia = document.querySelector('input[name="urgencia"]:checked').value;
     if (titulo === "")
         return; // Não adiciona se estiver vazio
+    var dataCriacao = new Date().toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
     // No momento de criar o card:
     var novoCard = document.createElement('div');
     novoCard.classList.add('task-card');
@@ -65,16 +72,18 @@ btnAdicionar.addEventListener('click', function () {
     // Aplicamos a cor como uma variável CSS dentro do próprio card
     novoCard.style.setProperty('--card-color', corEscolhida);
     // 3. Montar o conteúdo interno do Card
-    novoCard.innerHTML = "\n\n    <button class=\"btn-delete\">\n        <img src=\"images/bin.png\" alt=\"Excluir\">\n    </button>\n    <div class=\"task-content\">\n\n    <div class=\"task-info\">\n        <h3>".concat(titulo, "</h3>\n        <p>").concat(descricao, "</p>\n    </div>\n    <button class=\"btn-check\">\n            <img src=\"images/check.png\" alt=\"Concluir Tarefa\">\n        </button>\n    </div>\n\n");
+    novoCard.innerHTML = "\n\n    <button class=\"btn-delete\">\n        <img src=\"images/bin.png\" alt=\"Excluir\">\n    </button>\n    <div class=\"task-content\">\n\n    <div class=\"task-info\">\n        <h3>".concat(titulo, "</h3>\n        <p>").concat(descricao, "</p>\n        <br>\n                <small class=\"task-date\">").concat(dataCriacao, "</small>\n    </div>\n    <button class=\"btn-check\">\n            <img src=\"images/check.png\" alt=\"Concluir Tarefa\">\n        </button>\n    </div>\n\n");
     var btnCheck = novoCard.querySelector('.btn-check');
     btnCheck.addEventListener('click', function () {
         // Adiciona ou remove a classe que controla o visual "riscado"
         novoCard.classList.toggle('completed');
+        atualizarProgresso();
     });
     // --- LOGICA DE EXCLUSÃO (BIN) ---
     var btnDelete = novoCard.querySelector('.btn-delete');
     btnDelete.addEventListener('click', function () {
         novoCard.remove();
+        atualizarProgresso();
     });
     // 4. Adicionar na tela e limpar o formulário
     var container = document.getElementById('container-tarefas');
@@ -83,6 +92,7 @@ btnAdicionar.addEventListener('click', function () {
         if (mensagemVazia)
             mensagemVazia.style.display = 'none'; // Esconde o aviso
         container.appendChild(novoCard);
+        atualizarProgresso();
     }
     // Limpar campos
     inputTitulo.value = "";
@@ -113,4 +123,17 @@ function getDragAfterElement(container, y) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+function atualizarProgresso() {
+    // Busca todos os cards e todos os cards que têm a classe 'completed'
+    var total = document.querySelectorAll('.task-card').length;
+    var concluidas = document.querySelectorAll('.task-card.completed').length;
+    var barra = document.getElementById('progress-bar');
+    if (!barra)
+        return;
+    // Calcula a porcentagem (se total for 0, a porcentagem é 0)
+    var porcentagem = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+    // Aplica no CSS da barra
+    barra.style.width = "".concat(porcentagem, "%");
+    barra.innerText = "".concat(porcentagem, "%");
 }

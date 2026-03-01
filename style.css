@@ -42,7 +42,10 @@ body {
     border-radius: 20px;
     border: 2px solid #F1C40F; /* Borda amarela para destaque */
     position: sticky; /* Tenta manter visível ao rolar */
-    top: 20px;
+    top: 150px; /* A mágica está aqui: ele "trava" logo abaixo do H1 */
+    z-index: 1000;
+    background-color: #1a1b26;
+    padding-bottom: 20px;
 }
 
 input, textarea {
@@ -356,4 +359,78 @@ input:focus, textarea:focus {
     opacity: 0.5;
     transform: scale(0.95);
     border: 2px dashed var(--card-color); /* Usa a cor da urgência na borda */
+}
+
+.task-date {
+    display: block;
+    font-size: 0.75rem;
+    color: #8892b0; /* Um cinza mais suave */
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Quando a tarefa for concluída, a data também ganha o risco? */
+.task-card.completed .task-date {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+h1 {
+    position: sticky;
+    top: 0; /* Cola no topo da tela */
+    z-index: 1000; /* Fica por cima de todos os cards */
+    
+    background-color: #1a1b26; /* COLOQUE AQUI A COR DE FUNDO EXATA DA SUA PÁGINA */
+    margin: 0;
+    padding: 20px 0; /* Dá um respiro para o título não colar na borda da tela */
+    text-align: center;
+    
+    /* Opcional: uma linha fina embaixo para separar das tarefas ao rolar */
+    border-bottom: 2px solid #f1c40f; /* O seu amarelo principal */
+
+}
+.progress-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #24283b; /* Fundo escuro da barra */
+    border-radius: 8px;
+    height: 25px;
+    overflow: hidden;
+    border: 1px solid #f1c40f; /* Borda amarela */
+}
+
+#progress-bar {
+    width: 0%; /* O TypeScript vai mudar isso */
+    height: 100%;
+    background-color: #f1c40f; /* Cor amarela que você usa */
+    color: #ffffff; /* Texto escuro para contrastar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transition: width 1.5s ease; /* Animação suave da barra enchendo */
+    min-width: 2rem; /* Garante um tamanho mínimo para o "0%" aparecer */
+    padding: 0 5px;  /* Dá um espacinho nas laterais do texto */
+    justify-content: center; /* Mantém o texto centralizado na parte amarela */
+    white-space: nowrap; /* Impede que o texto quebre linha */
+}
+
+.progress-label {
+    display: block;
+    color: #f1c40f; /* O seu amarelo */
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.progress-wrapper {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 10px; /* Um respiro nas laterais */
 }
