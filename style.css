@@ -1,0 +1,436 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1A1B26;
+    font-family: "Sour Gummy", sans-serif;
+    color: #F1C40F;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.container {
+    max-width: 1000px; /* Aumentei um pouco para caber as duas colunas */
+    margin: 0 auto;
+}
+
+.main-title {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 50px;
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* O DASHBOARD: Criando as duas colunas */
+.dashboard {
+    display: flex;
+    gap: 40px; /* Espaço entre as colunas */
+    align-items: flex-start;
+}
+
+/* COLUNA ESQUERDA: Formulário */
+.input-section {
+    flex: 1; /* Ocupa uma parte proporcional */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #24283B;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid #F1C40F; /* Borda amarela para destaque */
+    position: sticky; /* Tenta manter visível ao rolar */
+    top: 150px; /* A mágica está aqui: ele "trava" logo abaixo do H1 */
+    z-index: 1000;
+    background-color: #1a1b26;
+    padding-bottom: 20px;
+}
+
+input, textarea {
+    background: #1A1B26;
+    border: 2px solid #414868;
+    border-radius: 12px;
+    padding: 12px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease; /* Suaviza a bordinha acendendo */
+}
+
+textarea {
+    resize: none; /* AQUI: Remove o controle de redimensionar */
+    min-height: 120px; /* Garante um espaço bom para escrever */
+}
+
+input:focus, textarea:focus {
+    border-color: #F1C40F;
+    background: #1f2335; /* Dá uma leve clareada quando clica */
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.1);
+}
+
+#btn-adicionar {
+    background-color: #F1C40F;
+    color: #1A1B26;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.2s, background 0.2s;
+    width: 100%; /* Geralmente botões de formulário ocupam a largura toda */
+}
+
+#btn-adicionar:hover {
+    background-color: #d4ac0d;
+    transform: scale(1.02);
+}
+
+/* COLUNA DIREITA: Lista */
+.task-list {
+    flex: 2; /* Ocupa o dobro da largura do formulário */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.urgencia-container {
+    margin: 5px 0;
+}
+
+.urgencia-container p {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #F1C40F;
+}
+
+.radio-group {
+    display: flex;
+    justify-content:间-between;
+    gap: 10px;
+}
+
+.radio-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #1A1B26;
+    padding: 8px;
+    border-radius: 10px;
+    border: 2px solid #414868;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    color: #fff;
+}
+
+/* Esconde o círculo padrão do rádio */
+.radio-item input {
+    display: none;
+}
+
+/* Cores dos pontinhos */
+.ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.baixa { background-color: #2ecc71; box-shadow: 0 0 8px #2ecc71; }
+.media { background-color: #f39c12; box-shadow: 0 0 8px #f39c12; }
+.alta { background-color: #e74c3c; box-shadow: 0 0 8px #e74c3c; }
+
+/* Estilo quando selecionado */
+.radio-item:has(input:checked) {
+    border-color: #F1C40F;
+    background: #2d324a;
+    transform: translateY(-2px);
+}
+.empty-message {
+    color: #414868; /* Um tom de azul acinzentado, mais discreto */
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.1rem;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.sub-title {
+    font-size: 2rem;
+    color: #F1C40F;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+    
+    /* A LINHA QUE SUMIU: */
+    border-bottom: 2px dashed #414868; 
+}
+
+.task-card {
+    position: relative;
+    background: #24283B;
+    border-radius: 20px;
+    padding: 25px 40px 25px 25px; /* Aumentamos o padding da direita (40px) */
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center; /* Alinha o Check verticalmente com o centro do texto */
+    justify-content: space-between;
+    
+    border-left: 10px solid var(--card-color);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    
+    /* A identificação fixa no lado esquerdo */
+    border-left: 8px solid var(--card-color); 
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+}
+
+/* Efeito de Hover: Mantém a barra e brilha o resto */
+.task-card:hover {
+    transform: scale(1.03); 
+    /* O brilho agora envolve o card todo usando a cor da prioridade */
+    box-shadow: 0 0 20px var(--card-color);
+    /* Opcional: as outras bordas aparecem suavemente no hover */
+    border-color: var(--card-color); 
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column; /* Força um item embaixo do outro */
+    align-items: flex-start; /* Alinha o texto à esquerda */
+    gap: 4px; /* Cria um pequeno espaço entre o título e a descrição */
+    flex: 1; /* Faz o texto ocupar o espaço restante antes do botão check */
+}
+
+.task-info h3 {
+    font-family: 'Sour Gummy', sans-serif;
+    font-size: 1.4rem;
+    color: #ffffff; /* Texto branco para contrastar com o brilho */
+    margin: 0;
+    flex: 1;
+    padding-right: 15px;
+}
+
+.task-info p {
+    color: #a9b1d6;
+    font-size: 1rem;
+    margin: 0;
+}
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+/* Container que segura o texto e o check */
+.task-content {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente o Check com o texto */
+    justify-content: space-between; /* Empurra o texto para a esquerda e o check para a direita */
+    width: 100%;
+}
+
+/* Resetando o botão de Check para não herdar o estilo do botão amarelo */
+.btn-check {
+    background: transparent; /* Remove o fundo amarelo */
+    border: none;            /* Remove bordas herdadas */
+    padding: 0;             /* Remove paddings de botões padrão */
+    cursor: pointer;
+    margin-right: 20px;     /* Afastamento da margem direita que você pediu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Estilizando o PNG dentro do botão */
+.btn-check img {
+    width: 50px;            /* Tamanho maior como você queria */
+    height: 50px;
+    object-fit: contain;
+    filter: invert(1);      /* Opcional: se o ícone for preto e o fundo escuro, isso o torna branco */
+}
+/* Efeito de Hover para o botão Check */
+.btn-check:hover {
+    /* Aumenta o tamanho levemente */
+    transform: scale(1.1);
+    background-color: #2ecc71; 
+    
+    /* Cria a aura/borda verde brilhante ao redor do PNG */
+    filter: drop-shadow(0 0 8px #2ecc71);
+}
+
+/* Opcional: Adiciona uma transição suave se ainda não tiver */
+.btn-check img {
+    transition: all 0.3s ease;
+    
+}
+
+.btn-delete {
+    position: absolute; /* Faz ele flutuar */
+    top: 10px;          /* Distância do topo */
+    right: 12px;        /* Distância da direita */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.5;       /* Fica mais clarinho para não distrair */
+    transition: all 0.2s;
+    filter: invert(1);
+}
+
+.btn-delete img {
+    width: 15px;        /* Bem pequeno e elegante */
+    height: 15px;
+}
+
+.btn-delete:hover {
+    opacity: 1;         /* Ganha destaque ao passar o mouse */
+    transform: scale(1.2);
+}
+
+/* Prepara o texto para receber a linha */
+.task-card .task-info h3, 
+.task-card .task-info p {
+    position: relative;
+    display: inline-block; /* Necessário para a linha saber onde começa/termina */
+    transition: color 0.3s ease;
+}
+
+/* A "Linha" que vai riscar o texto */
+.task-card .task-info h3::after,
+.task-card .task-info p::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0; /* Começa com tamanho zero */
+    height: 2px;
+    background-color: #ffffff; /* Cor da linha (pode ser a mesma do check) */
+    transition: width 1.5s ease-in-out; /* O segredo da animação está aqui */
+}
+
+/* Quando concluído, a linha cresce até 100% */
+.task-card.completed .task-info h3::after,
+.task-card.completed .task-info p::after {
+    width: 100%;
+}
+
+/* Diminui a opacidade do texto e do card */
+.task-card.completed {
+    opacity: 0.6;
+}
+
+.task-card.completed .task-info h3,
+.task-card.completed .task-info p {
+    color: #717CB4;
+}
+
+.task-card.completed .btn-check {
+    transform: scale(1.1);
+    background-color: #2ecc71;
+    border-radius: 8px; /* Mantém o fundo contido */
+    filter: drop-shadow(0 0 8px #2ecc71);
+    transition: all 0.3s ease;
+}
+
+.task-card {
+    cursor: grab; /* Mãozinha aberta */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.task-card:active {
+    cursor: grabbing; /* Mãozinha fechada ao segurar */
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+    border: 2px dashed var(--card-color); /* Usa a cor da urgência na borda */
+}
+
+.task-date {
+    display: block;
+    font-size: 0.75rem;
+    color: #8892b0; /* Um cinza mais suave */
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Quando a tarefa for concluída, a data também ganha o risco? */
+.task-card.completed .task-date {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+h1 {
+    position: sticky;
+    top: 0; /* Cola no topo da tela */
+    z-index: 1000; /* Fica por cima de todos os cards */
+    
+    background-color: #1a1b26; /* COLOQUE AQUI A COR DE FUNDO EXATA DA SUA PÁGINA */
+    margin: 0;
+    padding: 20px 0; /* Dá um respiro para o título não colar na borda da tela */
+    text-align: center;
+    
+    /* Opcional: uma linha fina embaixo para separar das tarefas ao rolar */
+    border-bottom: 2px solid #f1c40f; /* O seu amarelo principal */
+
+}
+.progress-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: #24283b; /* Fundo escuro da barra */
+    border-radius: 8px;
+    height: 25px;
+    overflow: hidden;
+    border: 1px solid #f1c40f; /* Borda amarela */
+}
+
+#progress-bar {
+    width: 0%; /* O TypeScript vai mudar isso */
+    height: 100%;
+    background-color: #f1c40f; /* Cor amarela que você usa */
+    color: #ffffff; /* Texto escuro para contrastar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transition: width 1.5s ease; /* Animação suave da barra enchendo */
+    min-width: 2rem; /* Garante um tamanho mínimo para o "0%" aparecer */
+    padding: 0 5px;  /* Dá um espacinho nas laterais do texto */
+    justify-content: center; /* Mantém o texto centralizado na parte amarela */
+    white-space: nowrap; /* Impede que o texto quebre linha */
+}
+
+.progress-label {
+    display: block;
+    color: #f1c40f; /* O seu amarelo */
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.progress-wrapper {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 10px; /* Um respiro nas laterais */
+}
