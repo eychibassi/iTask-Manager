@@ -74,9 +74,14 @@ btnAdicionar.addEventListener('click', function () {
     // 3. Montar o conteúdo interno do Card
     novoCard.innerHTML = "\n\n    <button class=\"btn-delete\">\n        <img src=\"images/bin.png\" alt=\"Excluir\">\n    </button>\n    <div class=\"task-content\">\n\n    <div class=\"task-info\">\n        <h3>".concat(titulo, "</h3>\n        <p>").concat(descricao, "</p>\n        <br>\n                <small class=\"task-date\">").concat(dataCriacao, "</small>\n    </div>\n    <button class=\"btn-check\">\n            <img src=\"images/check.png\" alt=\"Concluir Tarefa\">\n        </button>\n    </div>\n\n");
     var btnCheck = novoCard.querySelector('.btn-check');
+    var audioCheck = document.getElementById('audio-check');
     btnCheck.addEventListener('click', function () {
         // Adiciona ou remove a classe que controla o visual "riscado"
         novoCard.classList.toggle('completed');
+        if (novoCard.classList.contains('completed')) {
+            audioCheck.currentTime = 0; // Reinicia o áudio caso o usuário clique rápido
+            audioCheck.play();
+        }
         atualizarProgresso();
     });
     // --- LOGICA DE EXCLUSÃO (BIN) ---

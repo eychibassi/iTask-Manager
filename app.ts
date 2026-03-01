@@ -122,10 +122,15 @@ novoCard.style.setProperty('--card-color', corEscolhida);
 `;
 
 const btnCheck = novoCard.querySelector('.btn-check') as HTMLButtonElement;
+const audioCheck = document.getElementById('audio-check') as HTMLAudioElement;
 
 btnCheck.addEventListener('click', () => {
     // Adiciona ou remove a classe que controla o visual "riscado"
     novoCard.classList.toggle('completed');
+    if (novoCard.classList.contains('completed')) {
+        audioCheck.currentTime = 0; // Reinicia o áudio caso o usuário clique rápido
+        audioCheck.play();
+    }
     atualizarProgresso();
 });
 
